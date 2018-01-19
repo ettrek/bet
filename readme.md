@@ -12,21 +12,28 @@ Description: `docs/tech-task.pdf`
 
 `run_tests.sh`
 
+# Options
+
+It are constants, stored in `bet/settings.py` file.
+
+* `ANNOTATION_URL`
+* `ANNOTATION_LINK_SELECTOR`
+
 # Documentation
 
-## Module `bet.links_of_matches`
+## Module `bet.annotation`
 
 Reads the list of football matches on annotation page.
 
 Simple usage:
 
 ```python
-import bet.links_of_matches
+import bet.annotation
 
 
-links = bet.links_of_matches.read()
+links = bet.annotation.read_links()
 for link in links:
-	print(links.title, "---", link.url)
+	print(link.text, "---", link.url)
 ```
 
 Result:
@@ -37,4 +44,3 @@ Flamengo Arcoverde - Sport Recife --- http://oddsportal.com/soccer/brazil/campeo
 ...
 ```
 
-The URL of annotation page have specified in `bet.links_of_matches.LIST_OF_MATCHES_URL ` constant. Presently it is http://www.oddsportal.com/matches/soccer.
