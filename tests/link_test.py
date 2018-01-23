@@ -2,7 +2,7 @@ import unittest
 import bet.link
 
 
-class TestLink(unittest.TestCase):
+class LinkTest(unittest.TestCase):
 
     def test_init_empty_link(self):
         empty_link = bet.link.Link()

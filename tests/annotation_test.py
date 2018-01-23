@@ -2,7 +2,7 @@ import unittest
 import bet.annotation
 
 
-class TestAnnotation(unittest.TestCase):
+class ReadLinksTest(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
