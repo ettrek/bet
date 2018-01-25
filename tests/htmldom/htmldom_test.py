@@ -1,52 +1,62 @@
 import unittest
 import bet.htmldom
-import lxml.etree
+import lxml.html
 
 
 class HtmlDom_init_Test(unittest.TestCase):
     """ HtmlDom.__init__()
     """
 
-    def test_init_with_bytes_gives_no_errors(self):
+    def test_init_with_valid_str_gives_no_errors(self):
         """
-        This are examples of normal init.
-
-        There are no assertion methods need.
+        This are examples of default init, that can be used in external 
+        modules.
         """
-        html_bytes = bytes("<html></html>", encoding="utf-8")
-        bet.htmldom.HtmlDom(html_bytes)
+        try:
+            bet.htmldom.HtmlDom('<html></html>')
+        except:
+            self.fail("An error occurred during HtmlDom init!")
 
         # Yet another valid init
-        bet.htmldom.HtmlDom(bytes(
-            '''
-            <!DOCTYPE html>
-            <html>
-                <body>
-                    <p>Some content here</p>
-                </body>
-            </html>
-            ''',
-            encoding="utf-8"
-        ))
+        try:
+            bet.htmldom.HtmlDom(
+                '''
+                <!DOCTYPE html>
+                <html>
+                    <body>
+                        <p>Some content here</p>
+                    </body>
+                </html>
+                '''
+            )
+        except:
+            self.fail("An error occurred during HtmlDom init!")
+
+    
+    def test_init_with_empty_str_gives_error(self):
+        with self.assertRaises(Exception):
+            bet.htmldom.HtmlDom('')
 
 
-    def test_init_with_html_Element_gives_no_errors(self):
+    def test_init_with_HtmlElement_gives_no_errors(self):
         """
-        This test needs for internal work with `lxml.etree` elements.
+        This test need for check internal work with `lxml.html` module inside
+        the `htmldom` package.
 
-        For extarnal work with `HtmlDom` class use init with bytes.
-
-        There are no assertion methods need.
+        For external <HtmlDom> class init use init with <str>.
         """
-        html_bytes = bytes("<html></html>", encoding="utf-8")
-        html_element = lxml.etree.HTML(html_bytes)
-        bet.htmldom.HtmlDom(html_element)
+        html_element = lxml.html.fromstring('<html></html>')
+
+        try:
+            bet.htmldom.HtmlDom(html_element)
+        except:
+            self.fail("An error occurred during HtmlDom init!")
 
 
     def test_init_with_invalid_type_gives_TypeError(self):
 
         with self.assertRaises(TypeError):
-            bet.htmldom.HtmlDom("<html></html>")
+            bet.htmldom.HtmlDom(bytes('<html></html>', encoding="utf-8"))
 
         # Yet another check
         with self.assertRaises(TypeError):
@@ -61,32 +71,48 @@ class HtmlDom_select_Test(unittest.TestCase):
     """ HtmlDom.select()
     """
 
-    def test_select_existent_element_returns_HtmlDom_list(self):
+    def test_selecting_existing_elements_gives_HtmlDom_list(self):
 
-        dom = bet.htmldom.HtmlDom(bytes("<html></html>", encoding="utf-8"))
+        dom = bet.htmldom.HtmlDom(
+            '''
+            <ul>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+            '''
+        )
 
-        elements = dom.select("html")
+        elements = dom.select("ul")
         self.assertIsInstance(elements, list)
         self.assertEqual(len(elements), 1)
 
-        html_tag = elements[0]
-        self.assertIsInstance(html_tag, bet.htmldom.HtmlDom)
+        ul = elements[0]
+        self.assertIsInstance(ul, bet.htmldom.HtmlDom)
+
+        # Yet another check
+
+        elements = dom.select("li")
+        self.assertIsInstance(elements, list)
+        self.assertEqual(len(elements), 3)
+
+        for li in elements:
+            self.assertIsInstance(li, bet.htmldom.HtmlDom)
 
 
     def test_walking_on_DOM_with_select(self):
             
-        dom = bet.htmldom.HtmlDom(bytes(
+        dom = bet.htmldom.HtmlDom(
             '''
-            <html>
+            <body>
             <ul>
                 <li>1</li>
                 <li>2</li>
                 <li>3</li>
             </ul>
-            </html>
-            ''',
-            encoding="utf-8"
-        ))
+            </body>
+            '''
+        )
 
         uls = dom.select("ul")
         self.assertIsInstance(uls, list)
@@ -105,7 +131,7 @@ class HtmlDom_select_Test(unittest.TestCase):
 
     def test_select_nonexistent_element_returns_empty_list(self):
 
-        dom = bet.htmldom.HtmlDom(bytes("<html></html>", encoding="utf-8"))
+        dom = bet.htmldom.HtmlDom('<html></html>')
 
         elements = dom.select("body")
         self.assertIsInstance(elements, list)
@@ -118,16 +144,15 @@ class HtmlDom_attr_Test(unittest.TestCase):
 
     def test_reading_HTML_tags_attributes(self):
 
-        dom = bet.htmldom.HtmlDom(bytes(
+        dom = bet.htmldom.HtmlDom(
             '''
             <html lang="en">
             <body>
                 <a href="http://google.com" class="link for-test">
             </body>
             </html>
-            ''',
-            encoding="utf-8"
-        ))
+            '''
+        )
 
         lang = dom.attr("lang")
         self.assertEqual(lang, "en")
@@ -137,13 +162,13 @@ class HtmlDom_attr_Test(unittest.TestCase):
         href = a.attr("href")
         self.assertEqual(href, "http://google.com")
 
-        clas = a.attr("class")
-        self.assertEqual(clas, "link for-test")
+        classes = a.attr("class")
+        self.assertEqual(classes, "link for-test")
 
 
     def test_reading_unexistent_attributes_gives_AttributeError(self):
 
-        a = bet.htmldom.HtmlDom(bytes('<a href="#"></a>', encoding="utf-8"))
+        a = bet.htmldom.HtmlDom('<a href="#"></a>')
 
         with self.assertRaises(AttributeError):
             a.attr("class")
@@ -158,37 +183,49 @@ class HtmlDom_text_Test(unittest.TestCase):
 
     def test_reading_the_text_of_empty_tag_gives_None(self):
 
-        p = bet.htmldom.HtmlDom(bytes(
-
-            '<p class="empty-paragraph"></p>',
-
-            encoding="utf-8"
-        ))
-
-        self.assertIsNone(p.text)
+        p_empty = bet.htmldom.HtmlDom('<p class="empty-paragraph"></p>')
+        self.assertIsNone(p_empty.text)
 
         # Yet another check
+        img = bet.htmldom.HtmlDom('<img src="image.png">')
+        self.assertIsNone(img.text)
 
-        p = bet.htmldom.HtmlDom(bytes(
+        # Yet another check
+        a_empty = bet.htmldom.HtmlDom('<a href="#"></a>')
+        self.assertIsNone(a_empty.text)
+
+        # Yet another check
+        a_container = bet.htmldom.HtmlDom('<a href="#"><img src="_"></a>')
+        self.assertIsNone(a_container.text)
+
+
+    def test_reading_the_non_visible_text_gives_empty_str(self):
+
+        p_with_space = bet.htmldom.HtmlDom('<p> </p>')
+        self.assertEqual(p_with_space.text, "")
+
+        # Yet another check
+        p_with_EOLS_and_spaces = bet.htmldom.HtmlDom(
             '''
             <p class="empty-paragraph">
 
             </p>
-            ''',
-            encoding="utf-8"
-        ))
+            '''
+        )
+        self.assertEqual(p_with_EOLS_and_spaces.text, "")
 
-        self.assertIsNone(p.text)
+        # Yet another check
+        a_container = bet.htmldom.HtmlDom('<a href="#"> <img src="_"> </a>')
+        self.assertEqual(a_container.text, "")
 
 
-    def test_reading_the_pure_text_of_tags(self):
+    def test_reading_the_pure_text_in_tags(self):
 
-        p = bet.htmldom.HtmlDom(bytes('<p>paragraph</p>', encoding="utf-8"))
+        p = bet.htmldom.HtmlDom('<p>paragraph</p>')
         self.assertEqual(p.text, "paragraph")
 
         # Yet another check
-
-        dom = bet.htmldom.HtmlDom(bytes(
+        dom = bet.htmldom.HtmlDom(
             '''
             <!DOCTYPE html>
             <html>
@@ -196,10 +233,8 @@ class HtmlDom_text_Test(unittest.TestCase):
                     <p>This is a paragraph with a <a href="#">link</a></p>
                 </body>
             </html>
-            ''',
-            encoding="utf-8"
-        ))
-
+            '''
+        )
         a = dom.select("a")[0]
         self.assertEqual(a.text, "link")
 
@@ -211,7 +246,7 @@ class HtmlDom_text_Test(unittest.TestCase):
         element.
         """
 
-        dom = bet.htmldom.HtmlDom(bytes(
+        dom = bet.htmldom.HtmlDom(
             '''
             <!DOCTYPE html>
             <html>
@@ -222,9 +257,8 @@ class HtmlDom_text_Test(unittest.TestCase):
                     </p>
                 </body>
             </html>
-            ''',
-            encoding="utf-8"
-        ))
+            '''
+        )
 
         p1 = dom.select("#p1")[0]
         self.assertEqual(p1.text, "This is a text with a")
@@ -239,7 +273,7 @@ class HtmlDom_tag_Test(unittest.TestCase):
 
     def test_reading_the_tag_name_of_elements(self):
 
-        dom = bet.htmldom.HtmlDom(bytes(
+        dom = bet.htmldom.HtmlDom(
             '''
             <!DOCTYPE html>
             <html>
@@ -250,10 +284,8 @@ class HtmlDom_tag_Test(unittest.TestCase):
                     </p>
                 </body>
             </html>
-            ''',
-            encoding="utf-8"
-        ))
-
+            '''
+        )
         self.assertEqual(dom.tag, "html")
 
         # Yet another check
@@ -265,7 +297,7 @@ class HtmlDom_tag_Test(unittest.TestCase):
         self.assertEqual(p.tag, "p")
 
         # Yet another check
-        h1 = bet.htmldom.HtmlDom(bytes('<h1>Title</h1>', encoding="utf-8"))
+        h1 = bet.htmldom.HtmlDom('<h1>Title</h1>')
         self.assertEqual(h1.tag, "h1")
 
 

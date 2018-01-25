@@ -1,29 +1,43 @@
-import lxml.etree
+import lxml.html
 import cssselect
 import bet.htmldom.http
 
 
+CSS_TRANSLATOR = cssselect.GenericTranslator()
+
+
+def css_to_xpath(css_selector):
+    """
+    Args:
+
+        <str> css_selector
+
+    Returns:
+
+        <str> xpath selector
+    """
+    return CSS_TRANSLATOR.css_to_xpath(css_selector)
+
+
 class HtmlDom:
     """
-    It is an adapter for <lxml.etree._ElementTree>
+    This is an adapter for <lxml.html.HtmlElement>
     """
+
     def __init__(self, html):
         """
+        Builds HTML DOM object from given HTML text.
+
         Args:
 
-            <lxml.etree._Element> html
+            <str> html
         """
-
-        if type(html) is bytes:
-            html_element = lxml.etree.HTML(html)
-
-        elif type(html) is lxml.etree._Element:
-            html_element = html
-
+        if type(html) is lxml.html.HtmlElement:
+            self._dom = html
+        elif type(html) is str:
+            self._dom = lxml.html.fromstring(html)
         else:
-            raise TypeError("need <bytes> or <lxml.etree._Element>")
-
-        self._dom = lxml.etree.ElementTree(html_element)
+            raise TypeError("need <str> or <lxml.html.HtmlElement>")
 
 
     def select(self, css_selector):
@@ -31,9 +45,17 @@ class HtmlDom:
         Args:
 
             <str> css_selector
+
+        Returns:
+
+            <list> of <HtmlDom> instances
         """
-        css_translator = cssselect.GenericTranslator()
-        xpath_selector = css_translator.css_to_xpath(css_selector)
+
+        """
+        See about `lxml.html.HtmlElement.xpath()` method on:
+        http://lxml.de/api/lxml.html.HtmlElement-class.html
+        """
+        xpath_selector = css_to_xpath(css_selector)
         elements = self._dom.xpath(xpath_selector)
         return list(map(HtmlDom, elements))
 
@@ -46,44 +68,53 @@ class HtmlDom:
 
         Returns:
 
-            <str> value of given `attribute` for current DOM root element.
+            <str> value of given `attribute` name for current DOM root element
 
         Raises:
 
             <AttributeError>
         """
-        # TODO: use _Element.get()
-        element = self._dom.getroot()
-        attributes = element.attrib
-        try:
-            return attributes[attribute]
 
-        except KeyError:
+        attribute_value = self._dom.get(attribute)
+
+        if attribute_value != None:
+            return attribute_value
+        else:
             raise AttributeError("HTML element have not the given attribute")
 
 
     @property
     def text(self):
-
-        element = self._dom.getroot()
-
         """
-        See about the `text` property on:
-        http://lxml.de/api/lxml.etree._Element-class.html
+        Represents `lxml.html.HtmlElement.text` property. This property will
+        be either <str> the text before the first subelement or `None`.
 
-        This variable will be either <str> - the text before the first
-        subelement or `None`.
+        See about `text` on: http://lxml.de/api/lxml.etree._Element-class.html
+
+        Returns:
+
+            <str> or `None` text, that contained in current HTML DOM root 
         """
-        text = element.text
+        text = self._dom.text
         return text.strip() if text else None
 
 
     @property
     def tag(self):
-        element = self._dom.getroot()
-        return element.tag
+        return self._dom.tag
 
 
 def read_url(url):
-    html_bytes = bet.htmldom.http.read(url)
-    return HtmlDom(html_bytes)
+    """
+    Reads HTML text from given `url` and returns <HtmlDom> instance.
+
+    Args:
+
+        <str> url
+
+    Returns:
+
+        <HtmlDom>
+    """
+    html_text = bet.htmldom.http.read(url)
+    return HtmlDom(html_text)
