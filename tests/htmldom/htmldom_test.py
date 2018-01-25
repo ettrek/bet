@@ -301,6 +301,28 @@ class HtmlDom_tag_Test(unittest.TestCase):
         self.assertEqual(h1.tag, "h1")
 
 
+class HtmlDom_to_str_Test(unittest.TestCase):
+    """ HtmlDom.to_str()
+    """
+
+    def test_to_str_returns_same_str_as_init_str(self):
+
+        html_string = '<html><body> <img src="image.png"> </body></html>'
+        dom = bet.htmldom.HtmlDom(html_string)
+        self.assertEqual(dom.to_str(), html_string)
+
+        # Yet another check
+        html_text = '''
+        <html>
+            <body>
+                <p>Some content here</p>
+            </body>
+        </html>
+        '''
+        dom = bet.htmldom.HtmlDom(html_text)
+        self.assertEqual(dom.to_str().strip(), html_text.strip())
+
+
 class read_url_Test(unittest.TestCase):
     """ read_url()
     """

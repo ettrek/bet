@@ -2,7 +2,7 @@ import unittest
 import bet.link
 
 
-class LinkTest(unittest.TestCase):
+class Link_Test(unittest.TestCase):
 
     def test_init_empty_link(self):
         empty_link = bet.link.Link()
@@ -82,7 +82,7 @@ class LinkTest(unittest.TestCase):
 
     def test_construct_on_valid_html(self):
         html_link_mock = HtmlLinkMock("http://google.com", "Text")
-        link = bet.link.Link.from_html(html_link_mock)
+        link = bet.link.Link.from_htmldom(html_link_mock)
         self.assertIsInstance(link, bet.link.Link)
         self.assertEqual(link.url, "http://google.com")
         self.assertEqual(link.text, "Text")
@@ -91,7 +91,7 @@ class LinkTest(unittest.TestCase):
     def test_construck_on_invalid_html(self):
         empty_object = object()
         with self.assertRaises(Exception):
-            link = bet.link.Link.from_html(empty_object)
+            link = bet.link.Link.from_htmldom(empty_object)
 
 
 class HtmlLinkMock:

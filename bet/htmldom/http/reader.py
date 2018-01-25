@@ -9,12 +9,12 @@ def read_bytes(url):
     
     Returns:
             
-        <bytes> HTTP response body
+        <bytes> HTTP response body, <str> charset
     """
     response = urllib.request.urlopen(url)
     response_charset = response.info().get_content_charset()
     response_bytes = response.read()
-    return response_bytes
+    return response_bytes, response_charset
 
 
 def read(url):
@@ -27,4 +27,6 @@ def read(url):
 
         <str> HTTP response body
     """
-    return str(read_bytes(url))
+    html_bytes, charset = read_bytes(url)
+    return html_bytes.decode(charset)
+

@@ -1,22 +1,5 @@
 import lxml.html
-import cssselect
 import bet.htmldom.http
-
-
-CSS_TRANSLATOR = cssselect.GenericTranslator()
-
-
-def css_to_xpath(css_selector):
-    """
-    Args:
-
-        <str> css_selector
-
-    Returns:
-
-        <str> xpath selector
-    """
-    return CSS_TRANSLATOR.css_to_xpath(css_selector)
 
 
 class HtmlDom:
@@ -52,11 +35,10 @@ class HtmlDom:
         """
 
         """
-        See about `lxml.html.HtmlElement.xpath()` method on:
+        See about `lxml.html.HtmlElement.cssselect()` method on:
         http://lxml.de/api/lxml.html.HtmlElement-class.html
         """
-        xpath_selector = css_to_xpath(css_selector)
-        elements = self._dom.xpath(xpath_selector)
+        elements = self._dom.cssselect(css_selector)
         return list(map(HtmlDom, elements))
 
 
@@ -102,6 +84,16 @@ class HtmlDom:
     @property
     def tag(self):
         return self._dom.tag
+
+
+    def to_str(self):
+        """
+        Returns:
+            
+            <str> HTML text
+        """
+        html_bytes = lxml.html.tostring(self._dom)
+        return html_bytes.decode("utf-8")
 
 
 def read_url(url):

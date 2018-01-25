@@ -16,9 +16,24 @@ def read_links():
 
     Returns:
         
-        (`list` of `Link`)
+        <list> of <Link> instances
     """
-    annotation_page = bet.htmldom.read_url(bet.settings.ANNOTATION_URL)
-    html_links = annotation_page.select(bet.settings.ANNOTATION_LINK_SELECTOR)
-    return list(map(Link.from_html, html_links))
+
+    url = bet.settings.ANNOTATION_URL
+    assert type(url) is str
+    assert len(url) > 0
+
+    annotation = bet.htmldom.read_url(url)
+    assert type(annotation) is bet.htmldom.HtmlDom
+
+    link_selector = bet.settings.ANNOTATION_LINK_SELECTOR
+    assert type(link_selector) is str
+    assert len(link_selector) > 0
+
+    html_links = annotation.select(link_selector)
+    assert type(html_links) is list
+    assert len(html_links) > 0
+    assert type(html_links[0]) is bet.htmldom.HtmlDom
+
+    return list(map(Link.from_htmldom, html_links))
 

@@ -2,14 +2,16 @@ import unittest
 import bet.annotation
 
 
-class ReadLinksTest(unittest.TestCase):
+class read_links_Test(unittest.TestCase):
+    """ read_links()
+    """
 
     @classmethod
     def setUpClass(cls):
         cls.links = bet.annotation.read_links()
 
 
-    def test_annotation_returns_a_list(self):
+    def test_annotation_returns_a_non_empty_list(self):
         self.assertIsInstance(self.links, list)
         self.assertGreater(len(self.links), 0)
 
@@ -23,4 +25,8 @@ class ReadLinksTest(unittest.TestCase):
         for link in self.links:
             self.assertIsInstance(link.text, str)
             self.assertGreater(len(link.text), 0)
+
+
+    def test_text_of_annotation_link_matches_the_pattern(self):
+        pass
 

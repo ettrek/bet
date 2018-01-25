@@ -27,16 +27,16 @@ class Link:
 
     
     @classmethod
-    def from_html(cls, html_link):
+    def from_htmldom(cls, link):
         """
         Args:
 
-            (`bet.htmldom.HtmlDom`) html_object - that is a link (tag "a").
+            <bet.htmldom.HtmlDom> link
 
         Returns:
 
-            (`Link`) based on `html_object` data.
+            <Link> based on given `link` data.
         """
-        url = html_link.attr("href")
-        text = html_link.text
+        url = link.attr("href")
+        text = link.text
         return cls(url, text)
