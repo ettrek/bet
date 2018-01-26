@@ -46,4 +46,7 @@ class Annotation_Test(unittest.TestCase):
         # Let's select all annotation football links
         links = dom.select(link_css_selector)
         self.assertGreater(len(links), 0)
+		# Oops! This test fails. The problem is that page does not contains
+		# the needed links. The links will be loaded later through WebSocket
+		# from wss://oppush.livesport.eu/WebSocketConnection-Secure
 
