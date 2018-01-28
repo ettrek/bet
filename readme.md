@@ -12,6 +12,13 @@ Description: `docs/tech-task.pdf`
 
 `run_tests.sh`
 
+`tests/js/`
+Commit **b6263f3** has a problem description about Websocket. JS tests was
+added for researching the work with Websocket. When the mechanism of pulling
+the information about betting be clear and it will be realized on Python, this
+tests will be removed.
+
+
 # Options
 
 It are constants, stored in `bet/settings.py` file.
@@ -22,6 +29,8 @@ It are constants, stored in `bet/settings.py` file.
 # Documentation
 
 ## Module `bet.annotation`
+
+**Warning**: this functionality does not work yet!
 
 Reads the list of football matches on annotation page.
 
