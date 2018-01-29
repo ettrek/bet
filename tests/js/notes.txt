@@ -8,3 +8,6 @@ http://rb.oddsportal.com/x/oddsportal180128102849/img/ajax-loader-orange.gif
 
 При загрузке `index.html` в браузере, в консоли выдает ошибку, связанную с 
 `this.initBookmakers()` в файле `global-180128102849.js:1`.
+
+Ошибка устранена путем изменения порядка загрузки JS скриптов.
+
