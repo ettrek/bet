@@ -17,3 +17,11 @@ http://rb.oddsportal.com/x/oddsportal180128102849/img/ajax-loader-orange.gif
 Обнаружено, что функция `createWebSocket(url)` не выполняется, как и ряд
 связанных с ней функций.
 
+В конце `pushclient-180128102849.js` обнаружены функции с нормальными именами.
+Например, из них `setServers()` - не выполняется. Есть подозрение, что
+`MigratoryDataClient` инициализируется в другом скрипте, который нужно искать 
+на странице http://www.oddsportal.com/matches/soccer/
+
+В `global-180128102849.js` найдена инициализация `MigratoryDataClient`. Она, 
+видимо, не исполняется.
+

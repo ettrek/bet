@@ -29,14 +29,18 @@ MigratoryDataClient.bm=function(){this.b3.b4[this.b5].c2++;if(this.c3!==null){cl
 true){a=true;for(var b in this.bl){var c=this.bl[b];if(c.seqid!=7E4)if(c.recovery==true)a=false;else c.recovery=true}}if(MigratoryDataClient.cb)if(this.c9.length>0){b={};b.af=this.cc;this.c0(b)}MigratoryDataClient.cd=false;if(this.ce.length>0){b={};b.af=this.ag;if(a==true)b.cf=true;b.ce=this.ce;this.c0(b)}};
 
 MigratoryDataClient.cg = function() { 
-	alert("Enter the cg()");
+
+	console.log("Step 3");
+
 	this.ch();
 
 	var a = this.c9[this.b5].m;
 
 	if (MigratoryDataClient.cb) {
 		encoding = this.ci;
-		transport = this.webSocket;
+
+		console.log("Step 3.1");
+		transport = this.webSocket; // only here
 	}
 	
 	if ("/" !== a.substring(a.length-1, a.length)) {
@@ -60,29 +64,38 @@ a.substring(a.length-1,a.length))a+="/"}var f="";for(b=0;b<this.ae.ce.length;b++
 MigratoryDataClient.df=function(){this.ch();var a=this.c9[this.b5].m,b=this.o(a);if(!MigratoryDataClient.cb){if(!this.co||!b)a=this.cp(a);if(!b&&!this.cq(a,this.b5))return}if(this.ar!==this.as)this.ba();else{var c=b&&!this.cr?this.cs:null,d=this.ct,e=this.a7,f=this.ax;if(MigratoryDataClient.cb){c=this.ci;d=this.cu;f=null}else if(this.c==="IE"&&b&&MigratoryDataClient.cv&&this.cz){d=this.cw;e=this.cx;c=this.cy;if("/"!==a.substring(a.length-1,a.length))a+="/"}b=MigratoryDataClient.dg(this.au,e,c,f);
 this.ck=setTimeout(function(){MigratoryDataClient.ck=null;MigratoryDataClient.an(MigratoryDataClient.cl,MigratoryDataClient.ae.af)},this.u);d.call(this,a,this.b5,b)}};
 MigratoryDataClient.dh=function(){this.ch();var a=this.c9[this.b5].m,b=this.o(a);if(!MigratoryDataClient.cb){if(!this.co||!b)a=this.cp(a);if(!b&&!this.cq(a,this.b5))return}var c=b&&!this.cr?this.cs:null,d=this.ct,e=this.a7;if(this.ar!==this.as){a=this.ae.di.closure;a!==undefined&&a!==null&&this.b8({type:MigratoryDataClient.NOTIFY_PUBLISH_FAILED,info:a});this.ba()}else{var f=this.cn,g=this.ax;if(MigratoryDataClient.cb){d=this.cu;c=this.ci;g=f=null}else if(this.c==="IE"&&b&&MigratoryDataClient.cv){d=
-this.cw;e=this.cx;c=this.cy}if(this.ar===this.as){b=this.dj(this.ae.di,c,this.au,e,f,g);if("/"!==a.substring(a.length-1,a.length))a+="/";this.ck=setTimeout(function(){MigratoryDataClient.ck=null;MigratoryDataClient.an(MigratoryDataClient.cl,MigratoryDataClient.ae.af)},this.u);d.call(this,a,this.b5,b)}}};MigratoryDataClient.ba=function(){if(this.dk.length!==0){this.dk.shift();this.c5();this.dl(false)}};MigratoryDataClient.c0=function(a){this.dk.push(a);this.dm(false)};
+this.cw;e=this.cx;c=this.cy}if(this.ar===this.as){b=this.dj(this.ae.di,c,this.au,e,f,g);if("/"!==a.substring(a.length-1,a.length))a+="/";this.ck=setTimeout(function(){MigratoryDataClient.ck=null;MigratoryDataClient.an(MigratoryDataClient.cl,MigratoryDataClient.ae.af)},this.u);d.call(this,a,this.b5,b)}}};MigratoryDataClient.ba=function(){if(this.dk.length!==0){this.dk.shift();this.c5();this.dl(false)}};
+
+MigratoryDataClient.c0 = function(a) {
+	console.log("Step 5");
+	this.dk.push(a);
+	this.dm(false);
+};
 
 MigratoryDataClient.dl = function(a) {
-	// This function is called.
+	// This function is called
 	if (this.dk.length !== 0) {
-		// TODO: make it work
+		// But this is not called
 		setTimeout(function() {
 			MigratoryDataClient.dm(a);
 		}, 0);
 	}
 };
 
-MigratoryDataClient.dm = function(a) {
-	alert("Calling the dm()");
+MigratoryDataClient.dm = function(bool) {
+
+	console.log("Step 4.1");
+	// NOTE: This function is a sigle way to create WebSocket instance
+
 	if (this.dn) {
 		if (this.b(true)) {
-			if (! (! a && (this.ae !== null || this.dk.length === 0))) {
+			if (! (! bool && (this.ae !== null || this.dk.length === 0))) {
 				this.ae = this.dk[0];
 				switch (this.ae.af) {
 					case this.ag: this.cm(); break;
 					case this.ai: this.dd(); break;
 					case this.bx: this.df(); break;
-					case this.cc: this.cg(); break;
+					case this.cc: this.cg(); console.log("Step 4"); break; // only here
 					case this.ak: this.dh(); break;
 				}
 			}
@@ -97,9 +110,114 @@ MigratoryDataClient.dp = function() {
 
 MigratoryDataClient.c4=function(){for(;this.dk.length>0;){var a=this.dk[0];switch(a.af){case this.ag:var b=a.dq;a=this.a2(a.ce,this.ce);if(a.length>0){this.ce=this.a4(this.ce,a);for(var c=0;c<a.length;c++){this.bl[a[c]]={seqid:7E4,seq:0,recovery:false};if(b!==undefined&&b!==null&&b>=100){b=Math.floor(b/100)*100;this.bi[a[c]]=b}}}break;case this.ai:a=this.a3(a.ce,this.ce);if(a.length>0){this.ce=this.a2(this.ce,a);for(c=0;c<a.length;c++){delete this.bi[a[c]];delete this.bl[a[c]]}}break;case this.ak:if(a.di.closure!==
 undefined&&a.di.closure!==null){b={type:this.NOTIFY_PUBLISH_FAILED,info:a.di.closure};MigratoryDataClient.d!==null&&MigratoryDataClient.d.call(window,b)}break}this.dk.shift()}};MigratoryDataClient.c5=function(){this.ae=null;if(this.ck!==null){clearTimeout(this.ck);this.ck=null}if(this.dr!==null&&this.dr.readyState&&this.dr.readyState!==4){if(typeof XMLHttpRequest!=="undefined")this.dr.aborted=true;this.dr.abort()}this.dr!==null&&delete this.dr;this.dr=null};
-MigratoryDataClient.c6=function(){if(this.ds!==null){clearTimeout(this.ds);this.ds=null}if(this.wsocket!==null)if(this.wsocket.du!=="HTML5")if(this.wsocket.du==="XDR_HTML5"){var a=document.getElementById("MigratoryDataClient1");a!==null&&a.contentWindow.postMessage("disconnect","*")}else if(this.wsocket.getElementById){a=this.wsocket.getElementById("dv");if(a!==null){a.src="";this.wsocket.body.removeChild(a);delete a}delete this.wsocket;this.wsocket=null;CollectGarbage()}else{if(MigratoryDataClient.cb)this.wsocket.close();else{if(this.wsocket.dw!==
-undefined){clearTimeout(this.wsocket.dw);this.wsocket.dw=undefined}this.wsocket.readyState&&this.wsocket.readyState!==4&&this.wsocket.abort();this.wsocket.du==="XDR_STREAM"&&this.wsocket.abort()}delete this.wsocket;this.wsocket=null}};MigratoryDataClient.dx=function(){this.c5();this.c6();this.b5=null;this.c9=[];this.b3.b4=[];this.ar=null;this.ce=[];this.bi={};this.ax=this.au=null;this.c8=[];this.az=0;this.dy=this.b7=false;this.dk=[];this.bi={};this.bl={};this.aw=this.cd=false;if(this.bw!==null){clearTimeout(this.bw);this.bw=null}};
-MigratoryDataClient.dz=function(){if(this.o(this.c9[this.b5].m)&&!this.cr){if(this.ds!==null){clearTimeout(this.ds);this.ds=null}if(this.wsocket!==null){this.wsocket.responseText="";this.wsocket.e0=0}}else{this.ar=this.b2;this.c6();this.ax=this.au=null;MigratoryDataClient.cd=false;if(this.ce.length>0){var a={};a.af=this.ag;if(MigratoryDataClient.aw==true)a.cf=true;a.ce=this.ce;this.c0(a)}}};MigratoryDataClient.ch=function(){if(this.b5===null)this.b5=this.e1()};
+
+MigratoryDataClient.c6 = function() {
+
+	if (this.ds !== null) {
+		clearTimeout(this.ds);
+		this.ds = null;
+	}
+	
+	if (this.wsocket !== null) {
+
+		if (this.wsocket.du !== "HTML5") {
+			if (this.wsocket.du === "XDR_HTML5") {
+				var a = document.getElementById("MigratoryDataClient1");
+				a !== null && a.contentWindow.postMessage("disconnect", "*");
+			}
+		} else if (this.wsocket.getElementById) {
+			a = this.wsocket.getElementById("dv");
+			if (a !== null) {
+				a.src = "";
+				this.wsocket.body.removeChild(a);
+				delete a;
+			}
+			
+			delete this.wsocket;
+			this.wsocket = null;
+			CollectGarbage();
+		} else {
+
+			if (MigratoryDataClient.cb) {
+				this.wsocket.close();
+			} else {
+
+				if (this.wsocket.dw !== undefined) {
+					clearTimeout(this.wsocket.dw);
+					this.wsocket.dw = undefined;
+				}
+				
+				this.wsocket.readyState && this.wsocket.readyState !== 4 && this.wsocket.abort();
+				this.wsocket.du === "XDR_STREAM" && this.wsocket.abort();
+			}
+			
+			delete this.wsocket;
+			this.wsocket = null;
+		}
+	}
+};
+
+MigratoryDataClient.dx = function() {
+
+	this.c5();
+	this.c6();
+	this.b5 = null;
+	this.c9 = [];
+	this.b3.b4 = [];
+	this.ar = null;
+	this.ce = [];
+	this.bi = {};
+	this.ax = this.au = null;
+	this.c8 = [];
+	this.az = 0;
+	this.dy = this.b7 = false;
+	this.dk = [];
+	this.bi = {};
+	this.bl = {};
+	this.aw = this.cd = false;
+	
+	if (this.bw !== null) {
+		clearTimeout(this.bw);
+		this.bw = null;
+	}
+};
+
+MigratoryDataClient.dz = function() {
+
+	if (this.o(this.c9[this.b5].m) && !this.cr) {
+
+		if (this.ds !== null) {
+			clearTimeout(this.ds);
+			this.ds = null;
+		}
+		
+		if (this.wsocket !== null) {
+			this.wsocket.responseText = "";
+			this.wsocket.e0 = 0;
+		}
+
+	} else {
+		this.ar = this.b2;
+		this.c6();
+		this.ax = this.au = null;
+		MigratoryDataClient.cd = false;
+
+		if (this.ce.length > 0) {
+
+			var a = {};
+			a.af = this.ag;
+
+			if (MigratoryDataClient.aw == true) {
+				a.cf = true;
+			}
+			
+			a.ce = this.ce;
+			this.c0(a); // TODO: make it work
+		}
+	}
+};
+
+MigratoryDataClient.ch=function(){if(this.b5===null)this.b5=this.e1()};
 MigratoryDataClient.e1=function(){var a=this.a2(this.c9,this.c8);if(a.length===0){this.c8=[];a=this.c9}if(a.length===0)throw"Error: e1() No available servers!";for(var b=0,c=0;c<a.length;c++)b+=a[c].e2;var d=-1;if(b===0)d=Math.floor(a.length*Math.random());else{var e=Math.floor(b*Math.random());for(c=b=0;c<a.length;c++){b+=a[c].e2;if(b>e){d=c;break}}}return this.a0(this.c9,a[d])};
 MigratoryDataClient.cp=function(a){var b=this.k(a);if(b===null||this.d4!==null&&b.l!==this.d4)throw"Error: Invalid common parent domain of the servers! Cause server is '"+a+"'.";if(this.d4===null){this.d4=b.l;if(b.l.indexOf(":")===-1)document.domain=b.l}return b.m};MigratoryDataClient.cq=function(a,b){var c="MigratoryDataClient2"+b;if(window.frames[c]===undefined||window.frames[c].e3===undefined){this.e4(a,b);return false}return true};
 MigratoryDataClient.e4=function(a,b){b="MigratoryDataClient2"+b;var c=document.getElementById(b);if(!c){c=document.createElement("iframe");c.name=b;c.id=b;c.style.display="none";document.body.appendChild(c)}this.ck=setTimeout(function(){MigratoryDataClient.ck=null;c.src="";c.parentNode.removeChild(c);MigratoryDataClient.an(MigratoryDataClient.cl,"iframe")},this.u);if("/"!==a.substring(a.length-1,a.length))a+="/";c.src=a+"_"+this.e5(this.d4,"e3","MigratoryDataClient.e6")};
@@ -123,9 +241,8 @@ MigratoryDataClient.ct=function(a,b,c){var d=this.o(a);if(d)this.dr=this.e7(fals
 "close")}this.dr.send(c)};MigratoryDataClient.ef=function(){var a=this.dr;a===null||typeof XMLHttpRequest!=="undefined"&&typeof a.aborted!=="undefined"&&a.aborted!==null&&a.aborted==true||a===null||a.readyState!==4||a.status!==200||a.responseText&&this.ek(a.responseText)};
 
 MigratoryDataClient.webSocket = function(url) {
-	alert("Calling the webSocket()");
-	var wsUrl;
 
+	var wsUrl;
 	if (url.substring(0, url.indexOf("://")) === "http") {
 		wsUrl = "ws://" + url.substring(url.indexOf("://") + 3) + "WebSocketConnection";
 
@@ -133,7 +250,8 @@ MigratoryDataClient.webSocket = function(url) {
 		wsUrl = "wss://" + url.substring(url.indexOf("://") + 3) + "WebSocketConnection-Secure";
 	}
 
-	this.wsocket = MigratoryDataClient.createWebSocket(wsUrl);
+	console.log("Step 2");
+	this.wsocket = MigratoryDataClient.createWebSocket(wsUrl); // only here
 
 	this.et = MigratoryDataClient.s();
 
@@ -160,9 +278,12 @@ MigratoryDataClient.webSocket = function(url) {
 };
 
 MigratoryDataClient.createWebSocket = function(url) {
-	alert("Creating WebSocket");
+
+	alert("Step 1: creating WebSocket");
+
 	if (window.WebSocket) {
-		return new WebSocket(url);
+		console.log("Step 1.1: new WebSocket");
+		return new WebSocket(url); // only here
 
 	} else if (window.MozWebSocket) {
 		return new MozWebSocket(url);
@@ -200,21 +321,141 @@ MigratoryDataClient.f3=function(a,b){var c="Error: f3() Illegal argument '"+b+"'
 MigratoryDataClient.NOTIFY_UNSUPPORTED_BROWSER="NOTIFY_UNSUPPORTED_BROWSER";MigratoryDataClient.NOTIFY_SERVER_DOWN="NOTIFY_SERVER_DOWN";MigratoryDataClient.NOTIFY_SERVER_UP="NOTIFY_SERVER_UP";MigratoryDataClient.NOTIFY_DATA_RESYNC="NOTIFY_DATA_RESYNC";MigratoryDataClient.NOTIFY_DATA_SYNC="NOTIFY_DATA_SYNC";MigratoryDataClient.NOTIFY_PUBLISH_OK="NOTIFY_PUBLISH_OK";MigratoryDataClient.NOTIFY_PUBLISH_FAILED="NOTIFY_PUBLISH_FAILED";MigratoryDataClient.NOTIFY_PUBLISH_DENIED="NOTIFY_PUBLISH_DENIED";
 MigratoryDataClient.NOTIFY_PUBLISH_NO_SUBSCRIBER="NOTIFY_PUBLISH_NO_SUBSCRIBER";MigratoryDataClient.NOTIFY_SUBSCRIBE_ALLOW="NOTIFY_SUBSCRIBE_ALLOW";MigratoryDataClient.NOTIFY_SUBSCRIBE_DENY="NOTIFY_SUBSCRIBE_DENY";MigratoryDataClient.CONSTANT_WINDOW_BACKOFF="CONSTANT_WINDOW_BACKOFF";MigratoryDataClient.TRUNCATED_EXPONENTIAL_BACKOFF="TRUNCATED_EXPONENTIAL_BACKOFF";
 MigratoryDataClient.notifyAfterReconnectRetries=function(a){if(typeof a!=="number"||a<1)throw"Error: notifyAfterReconnectRetries() should have a positive number as an argument!";this.ca=a};
-MigratoryDataClient.setServers=function(a){this.ew=true;this.a5(a,"string",1,/^(\d+)?\s*https?:\/\/(\w|-)+(\.(\w|-)+)*(:\d+)?$/i,"Error: setServers() - the argument should be a list of URLs, and each URL could be optionally preceded by a weight");for(var b=[],c=0;c<a.length;c++){var d=/https?:\/\/(\w|-)+(\.(\w|-)+)*(:\d+)?$/i.exec(a[c])[0],e=/^\d+/.exec(a[c]);if(e===null)e=100;else{e=parseInt(e[0]);if(e>100)throw"Error: setServers() - the weight needs to be an integer between 0 and 100!";}this.co||
-this.cp(d);b.push({m:d,e2:e})}this.c9=b;this.b3.b4=[];for(c=0;c<a.length;c++){this.b3.b4[c]={};this.b3.b4[c].b6=0;this.b3.b4[c].c2=0;this.b3.b4[c].b9=0;this.b3.b4[c].bv=0;this.b3.b4[c].bn=0;this.b3.b4[c].aq={}}if(MigratoryDataClient.cb){a={};a.af=this.cc;this.c0(a)}};MigratoryDataClient.getSubjects=function(){return this.a1(this.ce)};MigratoryDataClient.setMessageHandler=function(a){if(typeof a!=="function")throw"Error: setMessageHandler() should have a function as an argument!";this.bq=a};
+
+MigratoryDataClient.setServers = function(a) {
+	console.log("setServers()");
+	this.ew = true;
+	this.a5(a, "string", 1, /^(\d+)?\s*https?:\/\/(\w|-)+(\.(\w|-)+)*(:\d+)?$/i, "Error: setServers() - the argument should be a list of URLs, and each URL could be optionally preceded by a weight");
+	
+	for (var b = [], c = 0; c < a.length; c++) {
+		var d = /https?:\/\/(\w|-)+(\.(\w|-)+)*(:\d+)?$/i.exec(a[c])[0],e=/^\d+/.exec(a[c]);
+		
+		if (e === null) {
+			e = 100;
+		} else {
+			e = parseInt(e[0]);
+			
+			if ( e > 100) {
+				throw "Error: setServers() - the weight needs to be an integer between 0 and 100!";
+			}
+		}
+
+		this.co || this.cp(d);
+		b.push({
+			m: d,
+			e2: e
+		});
+	}
+	
+	this.c9 = b;
+	this.b3.b4 = [];
+	
+	for (c=0; c < a.length; c++) {
+		this.b3.b4[c] = {};
+		this.b3.b4[c].b6 = 0;
+		this.b3.b4[c].c2 = 0;
+		this.b3.b4[c].b9 = 0;
+		this.b3.b4[c].bv = 0;
+		this.b3.b4[c].bn = 0;
+		this.b3.b4[c].aq = {};
+	}
+	
+	if (MigratoryDataClient.cb) { 
+		a = {};
+		a.af = this.cc;
+		this.c0(a);
+	}
+};
+
+MigratoryDataClient.getSubjects=function(){return this.a1(this.ce)};MigratoryDataClient.setMessageHandler=function(a){if(typeof a!=="function")throw"Error: setMessageHandler() should have a function as an argument!";this.bq=a};
 MigratoryDataClient.setStatusHandler=function(a){if(typeof a!=="function")throw"Error: setStatusHandler() should have a function as an argument!";this.d=a};MigratoryDataClient.subscribe=function(a){MigratoryDataClient.subscribeWithHistory(a,0)};
 MigratoryDataClient.subscribeWithHistory=function(a,b){this.a5(a,"string",1,/^\/[^\/*]+\/([^\/*]+\/)*([^\/*]+|\*)$/,"Error: subscribe() - a subject is invalid");if(this.c9.length===0)throw"Error: subscribe() - the servers are not configured!";if(this.bq===null)throw"Error: subscribe() - the message handler is not configured!";if(typeof b!=="number"||b<0)throw"Error: subscribeWithHistory() - the second argument should be a positive number or zero!";a=this.a2(a,this.ce);if(a.length!==0){if(this.dy===
 false)this.dy=true;var c={};c.af=this.ag;c.dq=0;if(b!=0)c.db=b;c.ce=a;this.c0(c)}};
-MigratoryDataClient.setNumberOfSubdomainLevels=function(a){if(typeof a!=="number"||a<2)throw"Error: setNumberOfSubdomainLevels() should have a positive number larger or equal to 2 as an argument!";if(this.c9.length>0)throw"Error: Error: setNumberOfSubdomainLevels() Unable to set the number of subdomain levels when servers are already configured - use the api call setNumberOfSubdomainLevels() before the api call setServers()!";this.n=a};
+
+MigratoryDataClient.setNumberOfSubdomainLevels = function(a) {
+
+	console.log("setNumberOfSubdomainLevels()");
+
+	if (typeof a !== "number" || a < 2) {
+		throw "Error: setNumberOfSubdomainLevels() should have a positive number larger or equal to 2 as an argument!";
+	}
+
+	if (this.c9.length > 0) {
+		throw "Error: Error: setNumberOfSubdomainLevels() Unable to set the number of subdomain levels when servers are already configured - use the api call setNumberOfSubdomainLevels() before the api call setServers()!";
+	}
+
+	this.n = a
+};
+
 MigratoryDataClient.subscribeWithConflation=function(a,b){this.a5(a,"string",1,/^\/[^\/*]+\/([^\/*]+\/)*([^\/*]+|\*)$/,"Error: subscribe() - a subject is invalid");if(this.c9.length===0)throw"Error: subscribeWithConflation() - the servers are not configured!";if(this.bq===null)throw"Error: subscribeWithConflation() - the message handler is not configured!";a=this.a2(a,this.ce);if(a.length!==0){if(b>=100){b=Math.floor(b/100)*100;for(var c=0;c<a.length;c++)this.bi[a[c]]=b}else b=0;if(this.dy===false)this.dy=
 true;c={};c.af=this.ag;c.dq=b;c.ce=a;this.c0(c)}};MigratoryDataClient.unsubscribe=function(a){this.a5(a,"string",1,/^\/[^\/*]+\/([^\/*]+\/)*([^\/*]+|\*)$/,"Error: unsubscribe() - a subject is invalid");a=this.a3(a,this.ce);if(a.length!==0){var b={};b.af=this.ai;b.ce=a;this.c0(b)}};MigratoryDataClient.disconnect=function(){this.ew=false;this.b(false)&&this.dx()};
 MigratoryDataClient.setEntitlementToken=function(a){if(this.ce.length===0){this.cn=a;this.cd=false}else throw"Error: setEntitlementToken() - unable to set the entitlement token when there are running subject subscriptions!";};
 MigratoryDataClient.getInfo=function(){s="Date: "+(new Date).toString()+"\n";s+="Uptime: "+((new Date).getTime()-this.b3.gd)+" ms\n";s+="window.location: "+window.location+"\n";s+="document.domain: "+document.domain+"\n";s+="User-agent: "+navigator.userAgent+"\n";s+="Detected browser: "+this.c+"\n";s+="Servers: ";for(var a=0;a<this.c9.length;a++){if(a>0)s+=", ";s+=this.c9[a].e2+" "+this.c9[a].m}s+="\nSubjects: "+this.ce.toString()+"\n";s+="Connection status ["+(this.b5===null?null:this.c9[this.b5].m)+
 "]: "+this.ar+"\n";s+="Time from last server activity: "+(this.b3.bu!==null?(new Date).getTime()-this.b3.bu:null)+" ms\n";s+="Servers down before notify: "+this.ca+"\n";s+="Consecutive server down count: "+this.az+" times\n";for(a=0;a<this.b3.b4.length;a++){s+="\nServer up ["+this.c9[a].m+"]: "+this.b3.b4[a].b6+" times\n";s+="Server down ["+this.c9[a].m+"]: "+this.b3.b4[a].c2+" times\n";s+="Server connection recycled ["+this.c9[a].m+"]: "+this.b3.b4[a].b9+" times\n";s+="Received server events ["+
 this.c9[a].m+"]: "+this.b3.b4[a].bv+"\n";s+="Received messages ["+this.c9[a].m+"]: "+this.b3.b4[a].bn+"\n";for(var b in this.b3.b4[a].aq)if(this.b3.b4[a].aq.hasOwnProperty(b))s+="Error ["+this.c9[a].m+"] x"+this.b3.b4[a].aq[b]+" times : "+b+"\n"}return s};
-MigratoryDataClient.publish=function(a){if(this.c9.length===0)throw"Error: publish() - the servers are not configured, use setServers() first!";if(a===undefined||a===null)throw"Error: publish() - the message argument is undefined or null!";if(a.subject===undefined||a.subject===null)throw"Error: publish() - the subject of the message is undefined or null!";if(!/^\/[^\/*]+\/([^\/*]+\/)*([^\/*]+|\*)$/.test(a.subject))throw"Error: publish() - the subject of te message is invalid,  "+a.subject+" is the cause of the error!";
-if(a.content===undefined||a.content===null)throw"Error: publish() - the content of the message is undefined or null!";if(a.fields!==undefined&&a.fields!==null){if(typeof a.fields!=="object"||typeof a.fields.length!=="number")throw"Error: publish() - the message.fields element should be a list!";for(var b=0;b<a.fields.length;b++){if(!("name"in a.fields[b]))throw"Error: publish() - the "+b+"-th element from fields list doesn't have the name key!";if(!("value"in a.fields[b]))throw"Error: publish() - the "+
-b+"-th element from fields list doesn't have the value key!";}}if(this.dy===false){this.dy=true;this.bl[""]={seqid:7E4,seq:0,recovery:false};b={};b.af=this.ag;b.ce=[""];this.c0(b)}b={};b.af=this.ak;b.di=a;this.c0(b)};MigratoryDataClient.setQuickReconnectMaxRetries=function(a){if(typeof a!=="number"||a<2)throw"Error: setQuickReconnectMaxRetries() - the argument must be higher than 2!";this.v=a};
+
+MigratoryDataClient.publish = function(a) {
+
+	console.log("publish()");
+
+	if (this.c9.length === 0) {
+		throw "Error: publish() - the servers are not configured, use setServers() first!";
+	}
+	
+	if (a === undefined || a === null) {
+		throw "Error: publish() - the message argument is undefined or null!";
+	}
+	
+	if (a.subject === undefined || a.subject === null) {
+		throw "Error: publish() - the subject of the message is undefined or null!";
+	}
+	
+	if (!/^\/[^\/*]+\/([^\/*]+\/)*([^\/*]+|\*)$/.test(a.subject)) {
+		throw "Error: publish() - the subject of te message is invalid,  " + a.subject + " is the cause of the error!";
+	}
+
+	if (a.content === undefined || a.content === null) {
+		throw "Error: publish() - the content of the message is undefined or null!";
+	}
+	
+	if (a.fields !== undefined && a.fields !== null) {
+
+		if (typeof a.fields !== "object" || typeof a.fields.length !== "number") {
+			throw "Error: publish() - the message.fields element should be a list!";
+		}
+			
+		for (var b = 0; b < a.fields.length; b++) {
+
+			if (!("name" in a.fields[b])) {
+				throw "Error: publish() - the "+b+"-th element from fields list doesn't have the name key!";
+			}
+				
+			if (!("value"in a.fields[b])) {
+				throw "Error: publish() - the "+b+"-th element from fields list doesn't have the value key!";
+			}
+		}
+	}
+	
+	if (this.dy === false) {
+		this.dy = true;
+		this.bl[""] = {
+			seqid: 7E4,
+			seq: 0,
+			recovery: false
+		};
+		b = {};
+		b.af = this.ag;
+		b.ce = [""];
+		this.c0(b);
+	}
+	
+	b = {};
+	b.af = this.ak;
+	b.di = a;
+	this.c0(b);
+};
+
+MigratoryDataClient.setQuickReconnectMaxRetries=function(a){if(typeof a!=="number"||a<2)throw"Error: setQuickReconnectMaxRetries() - the argument must be higher than 2!";this.v=a};
 MigratoryDataClient.setQuickReconnectInitialDelay=function(a){if(typeof a!=="number"||a<1)throw"Error: setQuickReconnectInitialDelay() - the argument must be higher than 1!";this.w=a*1E3};
 MigratoryDataClient.setReconnectPolicy=function(a){if(a===undefined||a!==MigratoryDataClient.CONSTANT_WINDOW_BACKOFF&&a!==MigratoryDataClient.TRUNCATED_EXPONENTIAL_BACKOFF)throw"Error: setReconnectPolicy() - the argument must be either MigratoryDataClient.CONSTANT_WINDOW_BACKOFF or MigratoryDataClient.TRUNCATED_EXPONENTIAL_BACKOFF!";this.x=a};
 MigratoryDataClient.setReconnectTimeInterval=function(a){if(typeof a!=="number"||a<1)throw"Error: setReconnectTimeInterval() - the argument must be higher than 1!";this.y=a*1E3};MigratoryDataClient.setReconnectMaxDelay=function(a){if(typeof a!=="number"||a<1)throw"Error: setReconnectMaxDelay() - the argument must be higher than 1!";this.z=a*1E3};MigratoryDataClient.ew=true;MigratoryDataClient.co=false;MigratoryDataClient.cr=false;MigratoryDataClient.cv=false;MigratoryDataClient.bz=9E5;
