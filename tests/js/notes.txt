@@ -25,3 +25,6 @@ http://rb.oddsportal.com/x/oddsportal180128102849/img/ajax-loader-orange.gif
 В `global-180128102849.js` найдена инициализация `MigratoryDataClient`. Она, 
 видимо, не исполняется.
 
+Код после строки `global-180128102849.js:34` не исполняется, в т.ч. 
+инициализация `MigratoryDataClient`.
+
