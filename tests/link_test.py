@@ -6,16 +6,14 @@ class Link_Test(unittest.TestCase):
 
     def test_init_empty_link(self):
         empty_link = bet.link.Link()
-        self.assertIsInstance(empty_link.url, str)
-        self.assertEqual(len(empty_link.url), 0)
-        self.assertIsInstance(empty_link.text, str)
-        self.assertEqual(len(empty_link.text), 0)
+        self.assertEqual(empty_link.url, "")
+        self.assertEqual(empty_link.text, "")
 
 
-    def test_init_with_full_data(self):
+    def test_normal_init(self):
 
-        link = bet.link.Link(url="https://google.com", text="Web link title")
-        self.assertEqual(link.url, "https://google.com")
+        link = bet.link.Link(url="http://google.com", text="Web link title")
+        self.assertEqual(link.url, "http://google.com")
         self.assertEqual(link.text, "Web link title")
 
         # Yet another check
@@ -28,16 +26,26 @@ class Link_Test(unittest.TestCase):
 
         link = bet.link.Link(url="")
         self.assertEqual(link.url, "")
+        self.assertEqual(link.text, "")
 
         link = bet.link.Link(url="http://google.com")
         self.assertEqual(link.url, "http://google.com")
+        self.assertEqual(link.text, "")
 
         link = bet.link.Link("https://ya.ru")
         self.assertEqual(link.url, "https://ya.ru")
+        self.assertEqual(link.text, "")
+
+    
+    def test_init_with_text_only(self):
+        link = bet.link.Link(text="Text of a link")
+        self.assertEqual(link.text, "Text of a link")
+        self.assertEqual(link.url, "")
 
 
-    def test_set_url_after_init(self):
+    def test_setting_valid_url_after_init(self):
 
+        # Init with empty URL
         link = bet.link.Link()
         self.assertEqual(link.url, "")
 
@@ -51,31 +59,29 @@ class Link_Test(unittest.TestCase):
         self.assertEqual(link.url, "")
 
     
-    def test_invalid_url_makes_it_empty(self):
+    def test_setting_invalid_url_makes_it_empty(self):
 
-        # Init with valid
+        # Init with valid URL
         link = bet.link.Link("http://google.com")
         self.assertEqual(link.url, "http://google.com")
-        # Set invalid
+        # Set invalid URL
         link.url = "google.com"
         self.assertEqual(link.url, "")
 
-        # Set valid
+        # Set valid URL
         link.url = "https://ya.ru"
         self.assertEqual(link.url, "https://ya.ru")
-        # Set invalid
+        # Set invalid URL
         link.url = "http://"
         self.assertEqual(link.url, "")
 
-    
-    def test_init_with_text_only(self):
-        link = bet.link.Link(text="Text")
-        self.assertEqual(link.text, "Text")
 
+    def test_setting_text_after_init(self):
 
-    def test_set_text_after_init(self):
+        # Init with empty text
         link = bet.link.Link()
         self.assertEqual(link.text, "")
+
         link.text = "Some text for link"
         self.assertEqual(link.text, "Some text for link")
 

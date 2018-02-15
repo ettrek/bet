@@ -1,5 +1,5 @@
 import unittest
-import bet.annotation
+import bet.contents
 
 
 class read_links_Test(unittest.TestCase):
@@ -8,7 +8,7 @@ class read_links_Test(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.links = bet.annotation.read_links()
+        cls.links = bet.contents.read_links()
 
 
     def test_annotation_returns_a_non_empty_list(self):
@@ -28,5 +28,10 @@ class read_links_Test(unittest.TestCase):
 
 
     def test_text_of_annotation_link_matches_the_pattern(self):
-        pass
+
+        # Text is a football team pair: "Team 1 - Team 2"
+        TEXT_PATTERN = ".? - .?"
+
+        for link in self.links:
+            self.assertMatches(link.text, TEXT_PATTERN)
 

@@ -1,2 +1,2 @@
-ANNOTATION_URL = "http://www.oddsportal.com/matches/soccer"
-ANNOTATION_LINK_SELECTOR = ".table-participant > a"
+CONTENTS_URL = "http://www.oddsportal.com/matches/soccer"
+CONTENTS_LINK_SELECTOR = ".table-participant > a"

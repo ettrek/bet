@@ -12,26 +12,26 @@ Description: `docs/tech-task.pdf`
 
 `run_tests.sh`
 
-# Options
+# Settings
 
-It are constants, stored in `bet/settings.py` file.
+Stored in `bet/settings.py` file.
 
-* `ANNOTATION_URL`
-* `ANNOTATION_LINK_SELECTOR`
+* `CONTENTS_URL`
+* `CONTENTS_LINK_SELECTOR`
 
 # Documentation
 
-## Module `bet.annotation`
+## Module `bet.contents`
 
-Reads the list of football matches on annotation page.
+Reads the list of football matches from a page, that contains the betting line.
 
 Simple usage:
 
 ```python
-import bet.annotation
+import bet.contents
 
 
-links = bet.annotation.read_links()
+links = bet.contents.read_links()
 for link in links:
 	print(link.text, "---", link.url)
 ```
